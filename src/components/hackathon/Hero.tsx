@@ -1,69 +1,112 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, MapPin, Users } from "lucide-react";
-export const Hero = () => {
+import BlurText from "@/components/ui/BlurText";
+import FallingText from "@/components/ui/FallingText";
+import { useState, useEffect } from "react";
+
+export const Hero = ({ onIntroComplete }: { onIntroComplete?: () => void }) => {
+  const [showHero, setShowHero] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHero(true);
+      if (onIntroComplete) onIntroComplete();
+    }, 4000); // Show Hero after 4 seconds of falling text
+    return () => clearTimeout(timer);
+  }, [onIntroComplete]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden animate-fade-in">
       {/* Animated gradient orbs */}
-
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/30 rounded-full blur-[100px] animate-pulse delay-1000" />
 
       {/* Grid overlay */}
-      {/* Grid overlay */}
 
-
-      <div className="container mx-auto px-4 relative z-10 text-center">
-        {/* Event badge */}
-
-
-        {/* Main title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 animate-fade-in-up animation-delay-200">
-          <span className="text-gradient glow">HACKATHON</span>
-          <br />
-          <span className="text-foreground">CodeKar 2026</span>
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in-up animation-delay-400">
-          Innovation, Creativity, and Building the Future
-        </p>
-
-        {/* Event details */}
-        <div className="flex flex-wrap justify-center gap-6 mb-10 animate-fade-in-up animation-delay-600">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Calendar className="w-5 h-5 text-primary" />
-            <span>February 15-17, 2026</span>
-          </div>
-
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="w-5 h-5 text-primary" />
-            <span>Chennai,Tamil Nadu</span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Users className="w-5 h-5 text-primary" />
-            <span>50+ Hackers</span>
-          </div>
+      {!showHero ? (
+        <div className="absolute inset-0 z-50 flex items-center justify-center">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/30 rounded-full blur-[100px] animate-pulse delay-1000" />
+          <FallingText
+            text="CODE KAR"
+            highlightWords={["CODE", "KAR"]}
+            highlightClass="text-cyan-400 font-bold"
+            trigger="auto"
+            backgroundColor="transparent"
+            wireframes={false}
+            gravity={0.56}
+            fontSize="clamp(3rem, 10vw, 5rem)"
+            mouseConstraintStiffness={0.9}
+            className="h-full w-full"
+          />
         </div>
+      ) : (
+        <div className="container mx-auto px-4 relative z-10 text-center animate-fade-in">
+          {/* Event badge */}
 
-        {/* CTA buttons */}
-        <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up animation-delay-600">
-          <Button
-            size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 card-glow"
-          >
-            Apply Now
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-primary/50 text-primary hover:bg-primary/10 text-lg px-8 py-6"
-          >
-            Join Community
-          </Button>
+
+          {/* Main title */}
+          <div className="flex flex-col items-center justify-center mb-6">
+            <BlurText
+              text="HACKATHON"
+              delay={150}
+              animateBy="letters"
+              direction="top"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-cyan-400 mb-2"
+            />
+            <BlurText
+              text="CodeKar 2026"
+              delay={150}
+              animateBy="letters"
+              direction="top"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white"
+            />
+          </div>
+
+          {/* Tagline */}
+          <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto mb-8 animate-fade-in-up animation-delay-400">
+            Innovation, Creativity, and Building the Future
+          </p>
+
+          {/* Event details */}
+          <div className="flex flex-wrap justify-center gap-6 mb-10 animate-fade-in-up animation-delay-600">
+            <div className="flex items-center gap-2 text-slate-300">
+              <Calendar className="w-5 h-5 text-primary" />
+              <span>February 15-17, 2026</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-slate-300">
+              <MapPin className="w-5 h-5 text-primary" />
+              <span>Chennai,Tamil Nadu</span>
+            </div>
+            <div className="flex items-center gap-2 text-slate-300">
+              <Users className="w-5 h-5 text-primary" />
+              <span>50+ Hackers</span>
+            </div>
+          </div>
+
+          {/* CTA buttons */}
+          <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up animation-delay-600">
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 card-glow"
+            >
+              Apply Now
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-primary/50 text-primary hover:bg-primary/10 text-lg px-8 py-6"
+            >
+              Join Community
+            </Button>
+          </div>
+
+          {/* Scroll indicator */}
+
         </div>
-
-        {/* Scroll indicator */}
-
-      </div>
+      )}
     </section>
   );
 };

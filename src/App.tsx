@@ -9,12 +9,14 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 
+import SplashCursor from "@/components/ui/SplashCursor";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-
+      <SplashCursor />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
